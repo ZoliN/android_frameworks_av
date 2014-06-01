@@ -345,6 +345,12 @@ status_t OMX::useBuffer(
             port_index, params, buffer);
 }
 
+status_t OMX::useBufferPmem(
+        node_id node, OMX_U32 portIndex, OMX_QCOM_PLATFORM_PRIVATE_PMEM_INFO *pmem_info, OMX_U32 size, void *vaddr,
+        buffer_id *buffer) {
+  return findInstance(node)->useBufferPmem( portIndex, pmem_info, size, vaddr, buffer);
+}
+
 status_t OMX::useGraphicBuffer(
         node_id node, OMX_U32 port_index,
         const sp<GraphicBuffer> &graphicBuffer, buffer_id *buffer) {

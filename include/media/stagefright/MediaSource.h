@@ -23,6 +23,9 @@
 #include <media/stagefright/MediaErrors.h>
 #include <utils/RefBase.h>
 #include <utils/Vector.h>
+#include <binder/IMemory.h>
+#include <binder/MemoryBase.h>
+#include <binder/MemoryHeapBase.h>
 
 namespace android {
 
@@ -59,7 +62,10 @@ struct MediaSource : public virtual RefBase {
     virtual status_t read(
             MediaBuffer **buffer, const ReadOptions *options = NULL) = 0;
 
+
     virtual void notifyError(status_t err) {}
+
+    virtual status_t getRecordingBuffer(unsigned int index, sp<MemoryBase>** buffer);
 
     // Options that modify read() behaviour. The default is to
     // a) not request a seek

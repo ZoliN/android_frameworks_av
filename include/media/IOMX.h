@@ -29,6 +29,14 @@
 
 namespace android {
 
+typedef struct OMX_QCOM_PLATFORM_PRIVATE_PMEM_INFO
+{
+    /** pmem file descriptor */
+    OMX_U32 pmem_fd;
+    /** Offset from pmem device base address */
+    OMX_U32 offset;
+}OMX_QCOM_PLATFORM_PRIVATE_PMEM_INFO;
+
 class IMemory;
 class IOMXObserver;
 class IOMXRenderer;
@@ -96,6 +104,10 @@ public:
     virtual status_t useBuffer(
             node_id node, OMX_U32 port_index, const sp<IMemory> &params,
             buffer_id *buffer) = 0;
+
+    virtual status_t useBufferPmem(
+						node_id node, OMX_U32 portIndex, OMX_QCOM_PLATFORM_PRIVATE_PMEM_INFO *pmem_info, OMX_U32 size, void *vaddr,
+						buffer_id *buffer) = 0;
 
     virtual status_t useGraphicBuffer(
             node_id node, OMX_U32 port_index,

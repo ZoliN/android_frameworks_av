@@ -39,6 +39,10 @@
 #endif
 
 #include "include/ExtendedUtils.h"
+#include <binder/IMemory.h>
+#include <binder/MemoryBase.h>
+#include <binder/MemoryHeapBase.h>
+
 
 namespace android {
 
@@ -513,6 +517,16 @@ status_t CameraSource::init(
     return err;
 }
 
+sp<MemoryBase> *mRecordingBuffers;
+
+status_t CameraSource::getRecordingBuffer(unsigned int index, sp<MemoryBase>** buffer)
+{
+    ALOGE("getrecordingbuffer");
+    *buffer=&mRecordingBuffers[index];
+  return OK;
+
+}
+
 status_t CameraSource::initWithCameraAccess(
         const sp<ICamera>& camera,
         const sp<ICameraRecordingProxy>& proxy,
@@ -589,6 +603,15 @@ status_t CameraSource::initWithCameraAccess(
 #ifdef QCOM_HARDWARE
     ExtendedUtils::HFR::setHFRIfEnabled(params, mMeta);
 #endif
+
+    sp<MemoryBase>* ptrbuffer;
+    mRecordingBuffers = new sp<MemoryBase>[9];
+    for (uint_t i = 0; i < 9; i++) {
+    mCamera->getRecordingBuffer(i, &ptrbuffer);
+			ALOGE("Camerabuffer 0 ptr %p ", ptrbuffer);
+    mRecordingBuffers[i] = *ptrbuffer;
+
+  }
 
     return OK;
 }
@@ -697,6 +720,7 @@ void CameraSource::stopCameraRecording() {
         mCamera->setListener(NULL);
         mCamera->stopRecording();
     }
+    delete [] mRecordingBuffers;
 }
 
 void CameraSource::releaseCamera() {
@@ -916,8 +940,8 @@ void CameraSource::dataCallbackTimestamp(int64_t timestampUs,
     mFramesReceived.push_back(data);
     int64_t timeUs = mStartTimeUs + (timestampUs - mFirstFrameTimeUs);
     mFrameTimes.push_back(timeUs);
-    ALOGV("initial delay: %lld, current time stamp: %lld",
-        mStartTimeUs, timeUs);
+    ALOGV("initial delay: %lld, current time stamp: %lld, framesreceived: %d, mFramesBeingEncoded: %d",
+        mStartTimeUs, timeUs, mFramesReceived.size(),mFramesBeingEncoded.size());
     mFrameAvailableCondition.signal();
 }
 
