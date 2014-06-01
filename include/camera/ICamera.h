@@ -23,6 +23,8 @@
 #include <binder/IMemory.h>
 #include <utils/String8.h>
 #include <camera/Camera.h>
+#include <binder/IMemory.h>
+#include <binder/MemoryBase.h>
 
 namespace android {
 
@@ -111,6 +113,8 @@ public:
 
     // tell the camera hal to store meta data or real YUV data in video buffers.
     virtual status_t        storeMetaDataInBuffers(bool enabled) = 0;
+
+    virtual status_t				getRecordingBuffer(unsigned int index, sp<MemoryBase>** buffer) {};
 };
 
 // ----------------------------------------------------------------------------

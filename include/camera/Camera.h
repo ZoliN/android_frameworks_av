@@ -26,6 +26,8 @@
 #include <camera/ICameraService.h>
 #include <camera/ICamera.h>
 #include <camera/CameraBase.h>
+#include <binder/IMemory.h>
+#include <binder/MemoryBase.h>
 
 namespace android {
 
@@ -124,6 +126,8 @@ public:
 
             // tell camera hal to store meta data or real YUV in video buffers.
             status_t    storeMetaDataInBuffers(bool enabled);
+
+            status_t 		getRecordingBuffer(unsigned int index, sp<MemoryBase>** buffer);
 
             void        setListener(const sp<CameraListener>& listener);
             void        setRecordingProxyListener(const sp<ICameraRecordingProxyListener>& listener);

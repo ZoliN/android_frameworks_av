@@ -83,6 +83,10 @@ struct MuxOMX : public IOMX {
             node_id node, OMX_U32 port_index, const sp<IMemory> &params,
             buffer_id *buffer);
 
+    virtual status_t useBufferPmem(
+        node_id node, OMX_U32 portIndex, OMX_QCOM_PLATFORM_PRIVATE_PMEM_INFO *pmem_info, OMX_U32 size, void *vaddr,
+        buffer_id *buffer);
+
     virtual status_t useGraphicBuffer(
             node_id node, OMX_U32 port_index,
             const sp<GraphicBuffer> &graphicBuffer, buffer_id *buffer);
@@ -293,6 +297,12 @@ status_t MuxOMX::useBuffer(
         node_id node, OMX_U32 port_index, const sp<IMemory> &params,
         buffer_id *buffer) {
     return getOMX(node)->useBuffer(node, port_index, params, buffer);
+}
+
+status_t MuxOMX::useBufferPmem(
+        node_id node, OMX_U32 portIndex, OMX_QCOM_PLATFORM_PRIVATE_PMEM_INFO *pmem_info, OMX_U32 size, void *vaddr,
+        buffer_id *buffer) {
+  return getOMX(node)->useBufferPmem(node, portIndex, pmem_info, size, vaddr, buffer);
 }
 
 status_t MuxOMX::useGraphicBuffer(

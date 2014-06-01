@@ -79,6 +79,10 @@ public:
             node_id node, OMX_U32 port_index, const sp<IMemory> &params,
             buffer_id *buffer);
 
+    virtual status_t useBufferPmem(
+            node_id node, OMX_U32 portIndex, OMX_QCOM_PLATFORM_PRIVATE_PMEM_INFO *pmem_info, OMX_U32 size, void *vaddr,
+            buffer_id *buffer);
+
     virtual status_t useGraphicBuffer(
             node_id node, OMX_U32 port_index,
             const sp<GraphicBuffer> &graphicBuffer, buffer_id *buffer);

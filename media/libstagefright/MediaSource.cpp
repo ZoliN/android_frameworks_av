@@ -24,6 +24,10 @@ MediaSource::~MediaSource() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
+status_t MediaSource::getRecordingBuffer(unsigned int index, sp<MemoryBase>** buffer) {
+  return OK;
+}
+
 MediaSource::ReadOptions::ReadOptions() {
     reset();
 }

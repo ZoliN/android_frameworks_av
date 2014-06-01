@@ -176,6 +176,8 @@ protected:
                  const sp<IGraphicBufferProducer>& surface,
                  bool storeMetaDataInVideoBuffers);
 
+    virtual status_t getRecordingBuffer(unsigned int index, sp<MemoryBase>** buffer);
+
     virtual void startCameraRecording();
     virtual void releaseRecordingFrame(const sp<IMemory>& frame);
 
