@@ -3418,6 +3418,12 @@ void OMXCodec::drainInputBuffers() {
                 continue;
             }
 
+#ifdef QCOM_HARDWARE
+            if (mIsEncoder && mIsVideo && (i == 4)) { //ported from cm10, needed to avoid the encoder eating up all input buffers, which leaves no buffer left for the camera sometimes
+                break;
+            }
+#endif
+
             if (!drainInputBuffer(info)) {
                 break;
             }
