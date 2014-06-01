@@ -1289,13 +1289,14 @@ status_t StagefrightRecorder::checkVideoEncoderCapabilities(
     Vector<CodecCapabilities> codecs;
     OMXClient client;
     CHECK_EQ(client.connect(), (status_t)OK);
-    QueryCodecs(
-            client.interface(),
-            (mVideoEncoder == VIDEO_ENCODER_H263 ? MEDIA_MIMETYPE_VIDEO_H263 :
-             mVideoEncoder == VIDEO_ENCODER_MPEG_4_SP ? MEDIA_MIMETYPE_VIDEO_MPEG4 :
-             mVideoEncoder == VIDEO_ENCODER_H264 ? MEDIA_MIMETYPE_VIDEO_AVC : ""),
-            false /* decoder */, true /* hwCodec */, &codecs);
-    *supportsCameraSourceMetaDataMode = codecs.size() > 0;
+    //QueryCodecs(
+    //        client.interface(),
+    //        (mVideoEncoder == VIDEO_ENCODER_H263 ? MEDIA_MIMETYPE_VIDEO_H263 :
+    //         mVideoEncoder == VIDEO_ENCODER_MPEG_4_SP ? MEDIA_MIMETYPE_VIDEO_MPEG4 :
+    //         mVideoEncoder == VIDEO_ENCODER_H264 ? MEDIA_MIMETYPE_VIDEO_AVC : ""),
+    //        false /* decoder */, true /* hwCodec */, &codecs);
+    //*supportsCameraSourceMetaDataMode = codecs.size() > 0;
+    *supportsCameraSourceMetaDataMode = 0; //hack to fix recording delay, we know that there is no metamode for xperia 2011:)
     ALOGV("encoder %s camera source meta-data mode",
             *supportsCameraSourceMetaDataMode ? "supports" : "DOES NOT SUPPORT");
 
